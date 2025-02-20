@@ -12,7 +12,7 @@ build/
 venv/
 env/
 .env/
-autisenv/
+pyenv/
 
 # IDE specific files
 .vscode/

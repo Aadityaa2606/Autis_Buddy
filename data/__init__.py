@@ -11,7 +11,7 @@ Components:
 """
 
 from pathlib import Path
-from autis_buddy.utils.config import config
+from utils.config import config
 import os
 
 __all__ = [

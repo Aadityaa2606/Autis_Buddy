@@ -11,7 +11,7 @@ class Config:
         return cls._instance
 
     def _load_config(self):
-        config_path = Path(__file__).parent.parent.parent / 'config' / 'config.yaml'
+        config_path = Path(__file__).parent.parent / 'config' / 'config.yaml'
         with open(config_path, 'r') as f:
             self._config = yaml.safe_load(f)
 

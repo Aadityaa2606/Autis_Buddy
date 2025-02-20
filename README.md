@@ -22,6 +22,8 @@ autis_buddy/
 ├── visualization/ # Data visualization
 ├── utils/        # Utility functions
 └── data/         # Sample data and data handling
+config/
+
 ```
 
 ## Configuration

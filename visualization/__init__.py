@@ -19,7 +19,7 @@ __all__ = [
     'create_all_visualizations'
 ]
 
-from autis_buddy.visualization.plots import (
+from visualization.plots import (
     plot_wave_strengths,
     plot_wave_distribution_boxplot,
     plot_wave_heatmap,

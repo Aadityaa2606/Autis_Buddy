@@ -3,7 +3,7 @@ paths:
     midi: output/midi
     json: output/json
     plots: output/plots
-  data: autis_buddy/data/sample_data
+  data: data/sample_data
 
 processing:
   eeg:

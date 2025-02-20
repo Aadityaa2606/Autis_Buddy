@@ -10,9 +10,9 @@ Components:
 - MIDI Generation
 """
 
-from autis_buddy.core.eeg_processor import preprocess_eeg
-from autis_buddy.core.music_mapper import eeg_to_music_parameters
-from autis_buddy.core.midi_generator import json_to_midi
+from core.eeg_processor import preprocess_eeg
+from core.music_mapper import eeg_to_music_parameters
+from core.midi_generator import json_to_midi
 
 __all__ = [
     'preprocess_eeg',

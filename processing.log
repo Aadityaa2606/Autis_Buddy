@@ -52,3 +52,18 @@
 [2025-02-20 17:20:07] Music parameters generated
 [2025-02-20 17:20:08] MIDI file created
 [2025-02-20 17:20:11] Visualizations generated
+[2025-02-20 17:32:50] Error: input_fname does not exist: "/home/aadityaa/Documents/Programming/capstone_project/Autis_Buddy/autis_buddy/data/sample_data/EEG_wav.set"
+[2025-02-20 17:33:09] Error: input_fname does not exist: "/home/aadityaa/Documents/Programming/capstone_project/Autis_Buddy/autis_buddy/data/sample_data/EEG_wav.set"
+[2025-02-20 17:34:07] Error: input_fname does not exist: "/home/aadityaa/Documents/Programming/capstone_project/Autis_Buddy/autis_buddy/data/sample_data/EEG_wav.set"
+[2025-02-20 17:34:51] EEG preprocessing completed
+[2025-02-20 17:34:52] Music parameters generated
+[2025-02-20 17:34:53] MIDI file created
+[2025-02-20 17:34:56] Visualizations generated
+[2025-02-20 17:35:32] EEG preprocessing completed
+[2025-02-20 17:35:33] Music parameters generated
+[2025-02-20 17:35:34] MIDI file created
+[2025-02-20 17:35:37] Visualizations generated
+[2025-02-20 17:39:10] EEG preprocessing completed
+[2025-02-20 17:39:12] Music parameters generated
+[2025-02-20 17:39:13] MIDI file created
+[2025-02-20 17:39:16] Visualizations generated

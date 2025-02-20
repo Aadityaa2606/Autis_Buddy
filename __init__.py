@@ -19,6 +19,7 @@ __description__ = "EEG to Music conversion tool for therapeutic purposes"
 from core.eeg_processor import preprocess_eeg
 from core.music_mapper import eeg_to_music_parameters
 from core.midi_generator import json_to_midi
+from core.audio_converter import convert_midi_to_mp3
 from visualization.plots import create_all_visualizations
 from utils.config import config
 
@@ -27,6 +28,8 @@ __all__ = [
     'preprocess_eeg',
     'eeg_to_music_parameters',
     'json_to_midi',
+    'convert_midi_to_mp3'
     'create_all_visualizations',
     'config',
+
 ]

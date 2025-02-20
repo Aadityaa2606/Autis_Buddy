@@ -2,6 +2,7 @@ from core.eeg_processor import preprocess_eeg
 from core.music_mapper import eeg_to_music_parameters
 from core.midi_generator import json_to_midi
 from core.midi_visualizer import visualize_midi
+from core.audio_converter import convert_midi_to_mp3
 from visualization.plots import create_all_visualizations
 from utils.cli import (
     Spinner, print_header, print_success, print_error, print_info,
@@ -100,6 +101,23 @@ def main():
         print_success("Visualizations generated successfully")
         log_to_file("Visualizations generated")
 
+        # Step 6: Convert MIDI to MP3
+        # print_header("Step 6: Converting MIDI to MP3")
+        # midi_file = Path(output_paths['midi']) / 'midi_out.mid'
+        # mp3_file = Path(output_paths['midi']) / 'output.wav'
+        
+        # for _ in range(15):
+        #     spinner.spin("Converting MIDI to MP3...")
+        #     time.sleep(0.1)
+        
+        # try:
+        #     convert_midi_to_mp3(str(midi_file), str(mp3_file))
+        #     print_success("MIDI to MP3 conversion completed successfully")
+        #     log_to_file("MIDI to MP3 conversion completed")
+        # except Exception as e:
+        #     print_error(f"MP3 conversion failed: {str(e)}")
+        #     log_to_file(f"MP3 conversion error: {str(e)}")
+
         # Final summary
         end_time = time.time()
         processing_time = round(end_time - start_time, 2)
@@ -110,6 +128,7 @@ def main():
         print("  └─ wave_analysis.json")
         print("  └─ music_parameters.json")
         print("  └─ midi_out.mid")
+        print("  └─ output.mp3")
         print("  └─ midi_visualization.csv")
         print("  └─ analysis/")
         print("     ├─ wave_strengths_plot.png")

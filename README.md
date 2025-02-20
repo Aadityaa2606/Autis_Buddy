@@ -122,6 +122,31 @@ The tool generates several output files:
 - `midi_out.mid`: Final musical composition
 - Various visualization plots in the `output/plots` directory
 
+## MIDI Generation Formulas
+
+The MIDI generation process uses specific formulas to convert EEG data into musical parameters:
+
+1. **Velocity Calculation**: 
+   ```
+   MIDI_velocity = EEG_amplitude * 127
+   ```
+   - Converts normalized EEG amplitude (0-1) to MIDI velocity range (0-127)
+   - Higher amplitudes result in louder notes
+   - Used to represent the intensity of brain activity
+
+2. **Time Calculation**: 
+   ```
+   MIDI_ticks = duration * 480
+   ```
+   - Converts duration in seconds to MIDI ticks
+   - Uses 480 ticks per beat (standard MIDI resolution)
+   - Ensures accurate timing representation
+
+These formulas maintain the relationship between:
+- EEG signal strength → Note velocity (loudness)
+- Time intervals → Note duration
+This creates a direct mapping between brain activity and musical expression.
+
 ## Contributing
 
 Contributions are welcome! Please drop a mail at aadityaa2606@gmail.com

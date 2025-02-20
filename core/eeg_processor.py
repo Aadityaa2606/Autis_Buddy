@@ -3,6 +3,11 @@ import numpy as np
 from scipy import signal
 import json
 import os
+import warnings
+
+# Suppress the specific RuntimeWarning
+warnings.filterwarnings('ignore', category=RuntimeWarning, message='The data contains.*boundary.*events')
+
 
 def preprocess_eeg(filename, interval_length=5):
     """

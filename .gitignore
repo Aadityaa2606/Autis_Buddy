@@ -1,4 +1,25 @@
-.vscode
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
 
-autisenv
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Virtual environment
+venv/
+env/
+.env/
+autisenv/
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Output directories
+output/
+*.mid
+*.json
 

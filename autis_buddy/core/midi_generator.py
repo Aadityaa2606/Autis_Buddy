@@ -20,6 +20,6 @@ def json_to_midi(json_file: str):
         track.append(Message('note_on', note=note, velocity=velocity, time=0))
         track.append(Message('note_off', note=note, velocity=velocity, time=int(duration * 480)))  # 480 ticks per beat
     
-    output_file = 'midi_out.mid'
+    output_file = 'output/midi/midi_out.mid'
 
     midi.save(output_file)

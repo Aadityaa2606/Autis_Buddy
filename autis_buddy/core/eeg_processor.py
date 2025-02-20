@@ -70,7 +70,10 @@ def preprocess_eeg(filename, interval_length=5):
         results["wave_strengths"][str(interval + 1)] = [f"{p:.3f}" for p in percentages]
     
     # Save results to JSON file
-    output_filename = os.path.splitext(filename)[0] + '_wave_analysis.json'
+    output_dir = 'output/json'
+    os.makedirs(output_dir, exist_ok=True)
+    output_filename = os.path.join(output_dir, 'wave_analysis.json')
+    
     with open(output_filename, 'w') as f:
         json.dump(results, f, indent=2)
     

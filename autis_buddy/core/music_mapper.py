@@ -49,7 +49,7 @@ def eeg_to_music_parameters(input_file):
         ]
 
     # Create output filename based on input filename
-    output_file = 'music_parameters.json'
+    output_file = 'output/json/music_parameters.json'
 
     # Save to output JSON file
     with open(output_file, 'w') as f:

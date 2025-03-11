@@ -50,6 +50,8 @@ def main():
     preprocessed_eeg_path = Path(output_paths['json']) / 'wave_analysis.json'
     eeg_music_params_path = Path(
         output_paths['json']) / 'music_parameters.json'
+    eeg_global_music_params_path = Path(
+        output_paths['json']) / 'global_parameters.json'
 
     spinner = Spinner()
     start_time = time.time()

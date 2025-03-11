@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import json
+import os
 from pathlib import Path
 
 def load_json_data(file_path):
@@ -110,6 +111,45 @@ def plot_music_parameters(music_file):
     plt.savefig('output/plots/music_parameters.png')
     plt.close()
 
+def plot_global_parameters(global_file):
+    """Plot the global music parameters and average wave strengths"""
+    data = load_json_data(global_file)
+    
+    # Create a figure with 2 subplots
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
+    
+    # Plot 1: Average Wave Strengths
+    wave_types = ["Delta", "Theta", "Alpha", "Beta", "Gamma"]
+    wave_values = [data["average_wave_strengths"]["delta"], 
+                   data["average_wave_strengths"]["theta"],
+                   data["average_wave_strengths"]["alpha"],
+                   data["average_wave_strengths"]["beta"],
+                   data["average_wave_strengths"]["gamma"]]
+    
+    # Create bar chart
+    bars = ax1.bar(wave_types, wave_values, color=['blue', 'green', 'red', 'purple', 'orange'])
+    ax1.set_title('Average Wave Strengths')
+    ax1.set_ylabel('Strength (%)')
+    ax1.grid(True, alpha=0.3, axis='y')
+    
+    # Add value labels on bars
+    for bar in bars:
+        height = bar.get_height()
+        ax1.text(bar.get_x() + bar.get_width()/2., height + 0.01,
+                f'{height:.3f}', ha='center', va='bottom')
+    
+    # Plot 2: Global Musical Parameters
+    ax2.text(0.5, 0.7, f"Tempo: {data['musical_parameters']['tempo']} BPM", 
+             fontsize=14, ha='center')
+    ax2.text(0.5, 0.3, f"Key: {data['musical_parameters']['key']}", 
+             fontsize=14, ha='center')
+    ax2.axis('off')  # Hide axes
+    ax2.set_title('Global Musical Parameters')
+    
+    plt.tight_layout()
+    plt.savefig('output/plots/global_parameters.png')
+    plt.close()
+
 def create_all_visualizations(eeg_file, music_file):
     """Generate all visualizations"""
     # Create analysis directory if it doesn't exist
@@ -121,6 +161,13 @@ def create_all_visualizations(eeg_file, music_file):
     plot_wave_heatmap(eeg_file)
     print("Wave heatmap generated")
     plot_music_parameters(music_file)
+    print("Music parameters plot generated")
+    
+    # Add global parameters visualization
+    global_file = "output/json/global_parameters.json"
+    if os.path.exists(global_file):
+        plot_global_parameters(global_file)
+        print("Global parameters plot generated")
     
     print("All visualizations have been generated in the 'output/plots' directory")
 

@@ -6,7 +6,6 @@ from pathlib import Path
 import shutil
 import uuid
 import time
-import os
 from typing import Dict, Optional
 
 # Import our existing modules
@@ -174,7 +173,6 @@ async def get_job_status(job_id: str):
     return response
 
 # Background processing function
-# Background processing function
 async def process_eeg_data(job_id: str, file_path: Path):
     """Process EEG data in the background"""
     job = jobs[job_id]
@@ -186,11 +184,9 @@ async def process_eeg_data(job_id: str, file_path: Path):
         for path in output_paths.values():
             Path(path).mkdir(parents=True, exist_ok=True)
             
-        # Explicitly set status to processing to indicate work has started
+        # Set status to processing to indicate work has started
         job["status"] = "PROCESSING"
         job["progress"] = 10
-        
-        # Run CPU-intensive operations in a thread pool to avoid blocking the event loop
         
         # Step 1: Preprocess EEG data
         preprocessed_eeg_path = Path(output_paths['json']) / 'wave_analysis.json'
@@ -202,16 +198,24 @@ async def process_eeg_data(job_id: str, file_path: Path):
         
         # Step 2: Generate music parameters
         eeg_music_params_path = Path(output_paths['json']) / 'music_parameters.json'
+        eeg_global_music_params_path = Path(output_paths['json']) / 'global_parameters.json'
         await asyncio.get_event_loop().run_in_executor(
             None, eeg_to_music_parameters, preprocessed_eeg_path
         )
         job["output_files"]["music_parameters"] = str(eeg_music_params_path)
+
+        
+        # Add global parameters to output files
+        global_params_path = Path(output_paths['json']) / 'global_parameters.json'
+        if global_params_path.exists():
+            job["output_files"]["global_parameters"] = str(global_params_path)
+        
         job["progress"] = 50
         
         # Step 3: Create MIDI file
         midi_path = Path(output_paths['midi']) / 'midi_out.mid'
         await asyncio.get_event_loop().run_in_executor(
-            None, json_to_midi, eeg_music_params_path
+            None, json_to_midi, eeg_music_params_path, eeg_global_music_params_path
         )
         job["output_files"]["midi_file"] = str(midi_path)
         job["progress"] = 65
@@ -223,7 +227,7 @@ async def process_eeg_data(job_id: str, file_path: Path):
         csv_path = Path(output_paths['json']) / 'midi_visualization.csv'  # Adjust based on your output naming
         job["output_files"]["midi_visualization"] = str(csv_path)
         job["progress"] = 75
-        
+
         # Step 5: Generate visualizations
         await asyncio.get_event_loop().run_in_executor(
             None, create_all_visualizations, preprocessed_eeg_path, eeg_music_params_path

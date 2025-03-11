@@ -117,7 +117,9 @@ def create_all_visualizations(eeg_file, music_file):
     
     # Generate all plots
     plot_wave_distribution_boxplot(eeg_file)
+    print("Wave distribution boxplot generated")
     plot_wave_heatmap(eeg_file)
+    print("Wave heatmap generated")
     plot_music_parameters(music_file)
     
     print("All visualizations have been generated in the 'output/plots' directory")

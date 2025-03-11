@@ -18,7 +18,7 @@ def visualize_midi(midi_file_path: str, output_dir: str = None) -> tuple:
         # Determine output path
         # midi_path = Path(midi_file_path)
         # if output_dir:
-        #     output_path = Path(output_dir) / f"{midi_path.stem}_visualization.csv"
+        #     output=_path = Path(output_dir) / f"{midi_path.stem}_visualization.csv"
         # else:
         #     output_path = midi_path.with_name(f"{midi_path.stem}_visualization.csv")
         

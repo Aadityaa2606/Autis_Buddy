@@ -55,4 +55,16 @@ def validate_eeg_file(filepath: Path) -> bool:
     
     # Add more validation logic here as needed
     valid_extensions = ['.set', '.edf', '.bdf']
-    return filepath.suffix.lower() in valid_extensions
+    
+    # Basic validation - check file extension
+    if filepath.suffix.lower() not in valid_extensions:
+        return False
+    
+    # Check file size (avoid empty files)
+    if filepath.stat().st_size < 100:  # Arbitrary minimum size
+        return False
+        
+    # For more thorough validation, you could try to open the file
+    # with appropriate libraries based on the file type
+    
+    return True

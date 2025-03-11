@@ -1,5 +1,7 @@
 import json
 import numpy as np
+import os
+from pathlib import Path
 
 def eeg_to_music_parameters(input_file):
     """
@@ -7,7 +9,17 @@ def eeg_to_music_parameters(input_file):
 
     Parameters:
     input_file (str): Path to input JSON file containing EEG data
+    
+    Returns:
+    dict: The generated music parameters
+    
+    Raises:
+    FileNotFoundError: If the input file doesn't exist
     """
+    # Check if input file exists
+    if not os.path.exists(input_file):
+        raise FileNotFoundError(f"Input file not found: {input_file}")
+    
     # Read the input JSON file
     with open(input_file, 'r') as f:
         eeg_data = json.load(f)
@@ -30,7 +42,7 @@ def eeg_to_music_parameters(input_file):
         # Calculate musical parameters
 
         # Pitch (MIDI number)
-        pitch = 60 + (delta * -10) + (gamma * 10)
+        pitch = 60 + (delta * -10) + (gamma * 10) 
         pitch = round(np.clip(pitch, 0, 127))
 
         # Step (intervals)
@@ -39,7 +51,7 @@ def eeg_to_music_parameters(input_file):
 
         # Duration
         duration = 0.5 + (delta * 0.1) - (beta * 0.3)
-        duration = round(max(0.1, duration), 2)
+        duration = round(max(0.1, duration), 2) 
 
         # Store the results
         music_data["musical_parameters"][interval] = [
@@ -48,6 +60,10 @@ def eeg_to_music_parameters(input_file):
             str(duration)
         ]
 
+    # Create output directory if it doesn't exist
+    output_dir = Path('output/json')
+    output_dir.mkdir(parents=True, exist_ok=True)
+    
     # Create output filename based on input filename
     output_file = 'output/json/music_parameters.json'
 

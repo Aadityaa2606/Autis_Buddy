@@ -8,6 +8,7 @@ import shutil
 import uuid
 import time
 from typing import Dict, Optional
+from fastapi.middleware.cors import CORSMiddleware
 
 # Import our existing modules
 from core.eeg_processor import preprocess_eeg
@@ -27,6 +28,14 @@ app = FastAPI(
     title="Autism Buddy API",
     description="API for converting EEG data to music for autism therapy",
     version="0.1.0"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Wildcard to allow all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods
+    allow_headers=["*"],  # Allow all headers
 )
 
 # Create necessary directories

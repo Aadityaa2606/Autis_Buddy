@@ -19,6 +19,9 @@ from visualization.plots import create_all_visualizations
 from utils.config import config
 from data import validate_eeg_file
 
+# Import the clear_uploads_directory function
+from utils.clear_uploads import clear_uploads_directory
+
 # Initialize FastAPI app
 app = FastAPI(
     title="Autism Buddy API",
@@ -49,6 +52,9 @@ async def debug_files():
 @app.post("/api/upload")
 async def upload_file(file: UploadFile = File(...)):
     """Upload an EEG file (.set, .edf, or .bdf)"""
+    # Clean up old uploads before processing new ones
+    clear_uploads_directory(UPLOAD_DIR)
+    
     # Generate unique file ID
     file_id = str(uuid.uuid4())
 

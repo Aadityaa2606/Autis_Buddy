@@ -15,7 +15,6 @@ from core.eeg_processor import preprocess_eeg
 from core.music_mapper import eeg_to_music_parameters
 from core.midi_generator import json_to_midi
 from core.midi_visualizer import visualize_midi
-from core.audio_converter import convert_midi_to_mp3
 from visualization.plots import create_all_visualizations
 from utils.config import config
 from data import validate_eeg_file
@@ -49,6 +48,12 @@ app.mount("/output", StaticFiles(directory="output"), name="output")
 uploaded_files: Dict[str, Path] = {}
 jobs: Dict[str, Dict] = {}
 
+
+@app.get("/")
+async def ping():
+    return {"message": "Autism Buddy API is running"}
+
+
 # Debug endpoint to see what files are stored
 @app.get("/api/debug/files")
 async def debug_files():
@@ -58,12 +63,13 @@ async def debug_files():
         "uploads_dir_contents": [str(f) for f in UPLOAD_DIR.iterdir()] if UPLOAD_DIR.exists() else []
     }
 
+
 @app.post("/api/upload")
 async def upload_file(file: UploadFile = File(...)):
     """Upload an EEG file (.set, .edf, or .bdf)"""
     # Clean up old uploads before processing new ones
     clear_uploads_directory(UPLOAD_DIR)
-    
+
     # Generate unique file ID
     file_id = str(uuid.uuid4())
 
@@ -209,6 +215,8 @@ async def get_job_status(job_id: str):
     return response
 
 # Background processing function
+
+
 async def process_eeg_data(job_id: str, file_path: Path):
     """Process EEG data in the background"""
     job = jobs[job_id]
@@ -289,13 +297,6 @@ async def process_eeg_data(job_id: str, file_path: Path):
         )
         job["output_files"]["visualizations"] = output_paths['plots']
         job["progress"] = 90
-
-        # Step 6: Convert MIDI to MP3 (commented out in your original code)
-        # mp3_path = Path(output_paths['midi']) / 'output.mp3'
-        # await asyncio.get_event_loop().run_in_executor(
-        #     None, convert_midi_to_mp3, str(midi_path), str(mp3_path)
-        # )
-        # job["output_files"]["mp3_file"] = str(mp3_path)
 
         # Complete job
         job["status"] = "COMPLETED"

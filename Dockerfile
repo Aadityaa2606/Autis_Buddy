@@ -4,22 +4,35 @@ FROM python:3.11-slim
 # Set working directory inside the container
 WORKDIR /app
 
-# Install system dependencies, including portaudio for PyAudio
-RUN apt-get update && apt-get install -y
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    libopenblas-dev \
+    libfreetype6 \
+    libpng-dev \
+    libjpeg-dev \
+    zlib1g-dev \
+    libsndfile1 \
+    python3-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Ensure pip is up-to-date
-RUN python -m ensurepip --upgrade
-RUN python -m pip install --upgrade pip
-
-# Copy requirements.txt and verify it exists
+# Copy requirements.txt and install dependencies
 COPY requirements.txt .
-RUN ls -l requirements.txt || echo "requirements.txt not found!"
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the FastAPI app code
-COPY main.py .
+# Copy all necessary files and directories
+COPY api.py .
+COPY config/ config/
+COPY core/ core/
+COPY output/ output/
+COPY utils/ utils/
+COPY visualization/ visualization/
+COPY uploads/ uploads/
+COPY data/ data/
 
 # Expose the port FastAPI will run on
-EXPOSE 8000
+EXPOSE 8005
 
 # Command to run the FastAPI app with Uvicorn
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8005"]

@@ -6,31 +6,37 @@ services:
     ports:
       - "8005:8005"
     restart: unless-stopped
+    container_name: autis-backend
     networks:
-      - web
-
-  nginx:
-    image: nginx:latest
+      - backend
+    labels:
+      - traefik.enable=true
+      # HTTPS Router
+      - traefik.http.routers.autis-backend-https.rule=Host(`autis-backend.aadinagarajan.com`)
+      - traefik.http.routers.autis-backend-https.entrypoints=websecure
+      - traefik.http.routers.autis-backend-https.tls=true
+      - traefik.http.routers.autis-backend-https.tls.certresolver=cloudflare
+      # Service (Backend)
+      - traefik.http.services.autis-backend.loadbalancer.server.port=8005
+  traefik:
+    image: docker.io/library/traefik:v3.3.4
+    container_name: traefik
     ports:
-      - "80:80"
-      - "443:443"
+      - 80:80
+      - 443:443
+      # --> (Optional) Enable Dashboard, don't do in production
+      # - 8080:8080
+      # <--
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./certbot/www:/var/www/certbot/:ro
-      - ./certbot/conf/:/etc/nginx/ssl/:ro
-    depends_on:
-      - fastapi
-    restart: unless-stopped
+      - /run/docker.sock:/run/docker.sock:ro
+      - ./config/:/etc/traefik/:ro
+      - ./certs/:/var/traefik/certs/:rw
+    environment:
+      - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
     networks:
-      - web
-
-  certbot:
-    image: certbot/certbot
-    volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+      - backend
+    restart: unless-stopped
 
 networks:
-  web:
-    driver: bridge
+  backend:
+    external: false 

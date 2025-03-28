@@ -21,3 +21,10 @@ pyenv/
 # Logs
 *.log
 /uploads
+
+# Certs
+certbot/
+certs/
+
+# env's
+.env

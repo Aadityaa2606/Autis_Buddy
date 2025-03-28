@@ -1,11 +1,10 @@
-version: '3.8'
 services:
   fastapi:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8000:8005"  # Internal port mapping
+      - "8005:8005"
     restart: unless-stopped
     networks:
       - web
